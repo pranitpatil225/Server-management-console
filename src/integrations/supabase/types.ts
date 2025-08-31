@@ -14,7 +14,284 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: unknown | null
+          resource_id: string | null
+          resource_type: string
+          server_id: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource_id?: string | null
+          resource_type: string
+          server_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          resource_id?: string | null
+          resource_type?: string
+          server_id?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      files: {
+        Row: {
+          created_at: string
+          group_name: string | null
+          id: string
+          modified_at: string | null
+          name: string
+          owner: string | null
+          path: string
+          permissions: string | null
+          server_id: string
+          size_bytes: number | null
+          type: string | null
+        }
+        Insert: {
+          created_at?: string
+          group_name?: string | null
+          id?: string
+          modified_at?: string | null
+          name: string
+          owner?: string | null
+          path: string
+          permissions?: string | null
+          server_id: string
+          size_bytes?: number | null
+          type?: string | null
+        }
+        Update: {
+          created_at?: string
+          group_name?: string | null
+          id?: string
+          modified_at?: string | null
+          name?: string
+          owner?: string | null
+          path?: string
+          permissions?: string | null
+          server_id?: string
+          size_bytes?: number | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "files_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      processes: {
+        Row: {
+          command: string | null
+          cpu_percent: number | null
+          id: string
+          memory_mb: number | null
+          name: string
+          pid: number
+          recorded_at: string
+          server_id: string
+          started_at: string | null
+          status: string | null
+        }
+        Insert: {
+          command?: string | null
+          cpu_percent?: number | null
+          id?: string
+          memory_mb?: number | null
+          name: string
+          pid: number
+          recorded_at?: string
+          server_id: string
+          started_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          command?: string | null
+          cpu_percent?: number | null
+          id?: string
+          memory_mb?: number | null
+          name?: string
+          pid?: number
+          recorded_at?: string
+          server_id?: string
+          started_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "processes_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          role: string | null
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      server_metrics: {
+        Row: {
+          cpu_usage: number | null
+          disk_total_gb: number | null
+          disk_usage_gb: number | null
+          id: string
+          load_average: number | null
+          memory_total_mb: number | null
+          memory_usage_mb: number | null
+          network_in_mb: number | null
+          network_out_mb: number | null
+          recorded_at: string
+          server_id: string
+          uptime_seconds: number | null
+        }
+        Insert: {
+          cpu_usage?: number | null
+          disk_total_gb?: number | null
+          disk_usage_gb?: number | null
+          id?: string
+          load_average?: number | null
+          memory_total_mb?: number | null
+          memory_usage_mb?: number | null
+          network_in_mb?: number | null
+          network_out_mb?: number | null
+          recorded_at?: string
+          server_id: string
+          uptime_seconds?: number | null
+        }
+        Update: {
+          cpu_usage?: number | null
+          disk_total_gb?: number | null
+          disk_usage_gb?: number | null
+          id?: string
+          load_average?: number | null
+          memory_total_mb?: number | null
+          memory_usage_mb?: number | null
+          network_in_mb?: number | null
+          network_out_mb?: number | null
+          recorded_at?: string
+          server_id?: string
+          uptime_seconds?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "server_metrics_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servers: {
+        Row: {
+          cpu_cores: number | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          hostname: string
+          id: string
+          ip_address: unknown
+          name: string
+          os: string | null
+          port: number | null
+          ram_gb: number | null
+          status: string | null
+          storage_gb: number | null
+          updated_at: string
+        }
+        Insert: {
+          cpu_cores?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hostname: string
+          id?: string
+          ip_address: unknown
+          name: string
+          os?: string | null
+          port?: number | null
+          ram_gb?: number | null
+          status?: string | null
+          storage_gb?: number | null
+          updated_at?: string
+        }
+        Update: {
+          cpu_cores?: number | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          hostname?: string
+          id?: string
+          ip_address?: unknown
+          name?: string
+          os?: string | null
+          port?: number | null
+          ram_gb?: number | null
+          status?: string | null
+          storage_gb?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
