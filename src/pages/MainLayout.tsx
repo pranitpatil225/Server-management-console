@@ -3,16 +3,17 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { ServerSidebar } from "@/components/ServerSidebar";
 import { Menu } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const MainLayout = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    if (!isAuthenticated) {
+    if (!loading && !user) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
   return (
     <SidebarProvider>
