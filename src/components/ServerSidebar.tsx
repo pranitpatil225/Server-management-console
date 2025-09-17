@@ -13,6 +13,7 @@ import {
   LayoutDashboard, 
   FolderOpen, 
   Activity, 
+  Terminal,
   LogOut,
   Server
 } from "lucide-react";
@@ -24,6 +25,7 @@ const menuItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "File Manager", url: "/files", icon: FolderOpen },
   { title: "Process Manager", url: "/processes", icon: Activity },
+  { title: "Console", url: "/console", icon: Terminal },
 ];
 
 export function ServerSidebar() {

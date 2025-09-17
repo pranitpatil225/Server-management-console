@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-import { Cpu, HardDrive, MemoryStick, Activity } from "lucide-react";
+import { Cpu, HardDrive, MemoryStick, Activity, Server } from "lucide-react";
+import { useServers } from "@/hooks/useServers";
 
 const cpuData = [
   { time: "00:00", usage: 23 },
@@ -22,6 +24,7 @@ const diskData = [
 const Dashboard = () => {
   const currentTime = new Date().toLocaleTimeString();
   const currentDate = new Date().toLocaleDateString();
+  const { data: servers, isLoading } = useServers();
 
   return (
     <div className="space-y-6">
@@ -31,6 +34,50 @@ const Dashboard = () => {
           Server monitoring and system overview • {currentDate} {currentTime}
         </p>
       </div>
+
+      {/* Server Status Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Server className="h-5 w-5 text-primary" />
+            Server Status Overview
+          </CardTitle>
+          <CardDescription>
+            Current status of all managed servers
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="text-center text-muted-foreground">Loading servers...</div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {servers?.map((server) => (
+                <div key={server.id} className="p-4 border border-border rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium">{server.name}</h3>
+                    <Badge 
+                      variant={server.status === 'online' ? 'default' : 
+                               server.status === 'maintenance' ? 'outline' : 'destructive'}
+                      className={server.status === 'online' ? 'bg-success text-success-foreground' : 
+                                 server.status === 'maintenance' ? 'bg-warning text-warning-foreground' : ''}
+                    >
+                      {server.status}
+                    </Badge>
+                  </div>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <div>{server.hostname}</div>
+                    <div>{server.ip_address}</div>
+                    <div className="flex gap-4 mt-2">
+                      <span>CPU: {server.cpu_cores} cores</span>
+                      <span>RAM: {server.ram_gb}GB</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* CPU Usage Card */}

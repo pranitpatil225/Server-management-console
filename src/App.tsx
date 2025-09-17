@@ -9,6 +9,7 @@ import MainLayout from "./pages/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import FileManager from "./pages/FileManager";
 import ProcessManager from "./pages/ProcessManager";
+import Console from "./pages/Console";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,9 @@ const App = () => (
             </Route>
             <Route path="/processes" element={<MainLayout />}>
               <Route index element={<ProcessManager />} />
+            </Route>
+            <Route path="/console" element={<MainLayout />}>
+              <Route index element={<Console />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
